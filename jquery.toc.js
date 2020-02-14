@@ -90,10 +90,20 @@
                 }
 
                 // Add the list item
-                $("<li/>").appendTo(stack[0]).append(
-                    $("<a/>").text(elem.text()).attr("href", "#" + elem.attr("id"))
-                );
-
+                let tag_a = $("<a/>").text(elem.text()).attr("href","javascript:;");
+                tag_a.click(function(){
+					//console.log("clickclick", elem.offset().top , elem.offset().top + options.top?options.top:0 , options);
+					$("html, body").scrollTop( elem.offset().top + parseFloat(options.top?options.top:0) );
+					if( options.isBlink ){
+						let bakColor = elem.css("color")
+						if( options.blinkColor ){
+							elem.css("color",options.blinkColor )
+							setTimeout(function(){ elem.css("color",bakColor ) }, 500)
+						}
+						elem.fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+					}					
+				});
+                $("<li/>").appendTo(stack[0]).append(tag_a);
                 currentLevel = level;
             });
         });
